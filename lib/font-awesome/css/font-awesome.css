@@ -471,12 +471,6 @@
   content: "\f063";
 }
 .fa-mail-forward:before,
-.fa-mailchimp:before,{
-	 content: "\f59e";
-}
-.fa-zhihu:before,{
-	 content: "\f63f";
-}
 .fa-share:before {
   content: "\f064";
 }
@@ -2321,6 +2315,12 @@
 }
 .fa-meetup:before {
   content: "\f2e0";
+}
+.fa-mailchimp:before,{
+  content: "\f59e";
+}
+.fa-zhihu:before,{
+  content: "\f63f";
 }
 .sr-only {
   position: absolute;
