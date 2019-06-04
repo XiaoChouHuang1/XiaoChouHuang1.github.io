@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[DoTween使用]]></title>
+    <url>%2F2019%2F06%2F05%2FDoTween%E4%BD%BF%E7%94%A8%2F</url>
+    <content type="text"><![CDATA[今天做项目的时候遇到一个DoMove不能解决的问题，需要用到DoPanth所以记录一下。查找了资料。 参考资料 DotweenPath 路径动画使用方法详解1、APIDotween对于路径动画就只提供了两个方法，一个是针对于世界坐标的，一个是针对于局部坐标的，本质上没啥区别。 waypoints：是提供路径上点的坐标，需要按顺序添加进数组 duration：路径动画的整体持续时间 pathType：路径类型（就是点于点之间路径连线的生成方式），它内部预定义了两种类型 ①Linear：直线②CatmullRom：曲线 pathModel: 路径模式（用于确定正确的LookAt方向），它内部定义了四种类型①Ignore：忽略此参数和设置的LookAt参数②Full3D：在3d场景下，代表物体可以看向任何方向③TopDown2D：代表物体只能上下旋转，看向物体④Sidescroller2D：代表物体只能左右旋转看向物体 resolution：路径分辨率，代表路径点之间的曲线由多少个点构成，也就是点越多，曲线就越圆，此参数在直线路径类型下无效 gizmoColor：在Scene视图中，生成的路径曲线的颜色 2、设置选项（1）SetOptions closePath：是否是封闭路径，设为true的话，会形成闭环，最后运动回起点 lockPosition：锁定位置，参数为轴向，例如，填入AxisConstraint.X的话，横向的位移将被锁定，物体只能在其他方向上移动 lockRotation：锁定旋转，参数为轴向，和锁定位置同理，锁定的轴向不能旋转 （2）SetLookAt 这个方法是很重要的方法，官方的API却有很多地方没有说清楚，有些需要注意的地方，提都没有提它的后两个参数，是提供看向的轴向，一般很少更改，就不介绍了，主要介绍第一个参数它针对于第一个参数的改变，有三种重载 （1）Transform类型参数 lookAtTransform：也就是要看向的物体 （2）Vector3类型参数 lookAtPosition：也就是要看向的位置 （3）float类型的参数 lookAhead：一个向前看的参数 前两个很容易理解，就不多说了，主要说一下第三种 lookAhead lookAhead 参数限制这个参数的取值范围是0到1的首先说明，它值的变化，产生的效果 这个值的变化，决定了物体开始移动时的朝向但是文档上没有提到的是，这个参数在不同数值下的效果，受到SetOptions的第一个参数closePath影响比较通俗的解释：（1）closePath为false （运动最后，物体的朝向移动是路径的运动方向的前方）lookAhead = 0：目标会沿着路径看向前方lookAhead != 0：目标会按照参数，决定开始运动时的朝向，但是运动期间会匀速转动朝向，最后朝向会转回路径前方的朝向（2）closePath为true（开始时确定方向后就不会变化了）lookAhead = 0：目标会沿着路径看向前方lookAhead &gt;0 &amp;&amp; lookAhead &lt;1:一直保持开始时的方向（即如上图所示）lookAhead = 1：这个时候，SetLookAt没有效果，即物体不会改变朝向这里所说的朝向是相对于运动路径的朝向路过的大神给出的学术性的解释：lookAhead 参数的意思就是 看前看的偏移量假设整个路径normalize. 即开始点为0,结束点为1. 走到路程的一半即为0.5.所以如果lookAhead = 0.5 时, 假设当前Transform行走进程到 0.1的位置,则会 LookAt 行走进程 0.6的位置.如果closePath=true, 则 lookAtPercent = Mathf.Repeat(movePercent + lookAhead, 1); 否则closePath=false, 则 lookAtPercent = Mathf.Clamp01(movePercent + lookAhead);]]></content>
+      <categories>
+        <category>博客，技术</category>
+      </categories>
+      <tags>
+        <tag>技术</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[游戏人生]]></title>
     <url>%2F2019%2F05%2F30%2F%E6%B8%B8%E6%88%8F%E4%BA%BA%E7%94%9F%2F</url>
     <content type="text"><![CDATA[我接触游戏的时间比较晚（高一下学期开始）。 所以基本上错过了DOTA、魔兽世界这些史诗巨作。 再加上资金有限，至今未接触过牛逼的单机巨作。 但不可否认，在我心中我把自己也划分为网瘾少年一类。 言归正传，聊一聊这些年令我记忆深刻的网游吧。 那些年我玩过得网游：《穿越火线》 《地下城与勇士》 《英雄联盟》 《逆战》 《使命召唤OnLine》 《斗战神》 《战争雷霆》 《战地之王》 《枪神纪》 《疾风之刃》 《魂之猎手》 《剑灵》]]></content>
