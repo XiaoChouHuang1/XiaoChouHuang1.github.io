@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="蛋蛋">
+    
+    
+    
+    
+    
+    
+    <title>Jeson存-读实现 | My Dream</title>
+    <link href="”http://aixiaodan.com“" rel="”prefetch”">
+
+    <link rel="stylesheet" href="../../../../css/bootstrap.min.css">
+<link rel="stylesheet" href="../../../../css/aos.css">
+<link rel="stylesheet" href="../../../../css/style.css">
+    <script src="../../../../js/jquery.min.js"></script>
+    <script src="../../../../js/bootstrap.min.js"></script>
+    <script src="../../../../js/aos.js"></script>
+    <script src="../../../../js/highslide/highslide-full.min.js"></script>
+    <link rel="stylesheet" href="../../../../js/highslide/highslide.css">
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '../../../../imgs/dandan.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '../../../../imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+</head></html>
+<body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+    <!-- 欧尼酱功能, 谁用谁知道 -->
+    
+    <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".bs-navbar-collapse" aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a href="http://aixiaodan.com">
+                
+                <style>
+                    #gal-header .navbar-brand {
+                        height: 54px;
+                        line-height: 24px;
+                        font-size: 28px;
+                        opacity: 1;
+                        background-color: rgba(0,0,0,0);
+                        text-shadow: 0 0 5px #fff,0 0 10px #fff,0 0 15px #fff,0 0 20px #228DFF,0 0 35px #228DFF,0 0 40px #228DFF,0 0 50px #228DFF,0 0 75px #228DFF;
+                    }
+                </style>
+                <!-- 这里使用文字(navbar_text or config.title) -->
+                <div class="navbar-brand">My Dream</div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class>
+                    <a href="../../../../index.html">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class>
+                    <a href="../../../../archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="../../../../categories/博客，技术/">博客，技术</a>
+                        </li>
+                        
+                        <li>
+                            <a href="../../../../categories/个人博客，杂记/">个人博客，杂记</a>
+                        </li>
+                        
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="../../../../tags/技术/">技术</a>
+                        </li>
+                        
+                        <li>
+                            <a href="../../../../tags/情感日记/">情感日记</a>
+                        </li>
+                        
+                        <li>
+                            <a href="../../../../tags/自己也曾是个网瘾少年/">自己也曾是个网瘾少年</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="../../../../tags">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class>
+                    <a href="../../../../about">
+                        <i class="fa fa-user"></i>关于我
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+    <div id="gal-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 gal-right" id="mainstay">
+                    
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="http://aixiaodan.com">My Dream</a>
+        >
+        <span>Jeson存-读实现</span>
+    </div>
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href>Jeson存-读实现</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-tags"></i>
+                
+                <a href="../../../../tags/技术/">技术</a>
+                
+            </span>
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2019-06-10
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href>Jeson存-读实现</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2019-06-10
+            </p>
+            <p>
+                
+                <i class="fa fa-tags"></i>
+                
+                <a href="../../../../tags/技术/">技术</a>
+                
+                
+                
+            </p>
+        </center>
+    </div>
+    <div class="content-article">
+        <p>//主</p>
+<p>using Assets.GeneralScript.ManagerScrpts;<br>using DG.Tweening;<br>using LitJson;<br>using System.Collections;<br>using System.Collections.Generic;<br>using System.IO;<br>using System.Text;<br>using UnityEngine;<br>using UnityEngine.Events;<br>using UnityEngine.UI;</p>
+<p>public enum QuesCallBacksName<br>{<br>    点击关闭,<br>    移入选项1,<br>    移入选项2,<br>    移入选项3,<br>    移入选项4,<br>}</p>
+<p>[System.Serializable]<br>public class QuesItem<br>{<br>    public string tag;<br>    public string ques;<br>    public List<string> options;<br>    public string answer;<br>}<br>[System.Serializable]<br>public class Root<br>{<br>    public List<quesitem> database = new List<quesitem>();<br>}<br>public class QuestionsControl_json : MonoSingleton&lt;QuestionsControl_json&gt;<br>{<br>    public GameObject togglePrefab;<br>    public Sprite rightImg;<br>    public Sprite wrongImg;</quesitem></quesitem></string></p>
+<pre><code>private Text ui_Ques;
+private Button ok;
+private Button close;
+private ToggleGroup toggleGroup;
+private QuesItem currentData;
+private Root r;
+//private bool resoult;
+//private bool single;//是单选
+private string filePath;
+[HideInInspector]
+public UnityEvent CloseCallBack, Option0CallBack, Option1CallBack, Option2CallBack, Option3CallBack;
+</code></pre><p>​    </p>
+<pre><code>void Awake()
+{
+    filePath = Application.dataPath + &quot;/StreamingAssets/Questions.json&quot;;
+    StreamReader streamreader = new StreamReader(filePath, Encoding.UTF8);//读取数据，转换成数据流
+    JsonReader js = new JsonReader(streamreader);//再转换成json数据
+    r = JsonMapper.ToObject&lt;Root&gt;(js);//读取
+
+    ui_Ques = Global.FindChild&lt;Text&gt;(transform, &quot;Ques&quot;);
+    ok = Global.FindChild&lt;Button&gt;(transform, &quot;确定Button&quot;);
+    close = Global.FindChild&lt;Button&gt;(transform, &quot;关闭Button&quot;);
+    ok.onClick.AddListener(delegate { Judge(); });
+    close.onClick.AddListener(ClosePanel);
+    toggleGroup = Global.FindChild&lt;ToggleGroup&gt;(transform, &quot;ToggleGroup&quot;);
+}
+
+
+/// &lt;summary&gt;
+/// 往Json文件中存数据
+/// &lt;/summary&gt;
+/// &lt;param name=&quot;ques&quot;&gt;QuesItem对象&lt;/param&gt;
+public void SaveQues(QuesItem ques)
+{
+    bool isAdd = true;//没有tag(isAdd为true)则添加
+    foreach (QuesItem q in r.database)
+    {
+        if (q.tag == ques.tag)//查找符合参数的题目
+        {
+            isAdd = false;
+        }
+    }
+
+    if (isAdd)
+    {
+        r.database.Add(ques);
+    }
+    else
+    {
+        Debug.Log(&quot;Json表中已有此tag值&quot;);
+    }
+
+    string jsonStr = JsonMapper.ToJson(r);//将ques对象转化为Json字符串
+    StreamWriter writer = new StreamWriter(filePath);
+    writer.Write(jsonStr);//将字符串写入到文件中
+    writer.Close();
+    Debug.Log(&quot;SAVE&quot;);
+}
+
+/// &lt;summary&gt;
+/// 添加回调
+/// &lt;/summary&gt;
+/// &lt;param name=&quot;name&quot;&gt;要添加回调的状态&lt;/param&gt;
+/// &lt;param name=&quot;unityAction&quot;&gt;添加的方法&lt;/param&gt;
+public void AddCallBacks(QuesCallBacksName name,UnityAction unityAction)
+{
+    switch (name)
+    {
+        case QuesCallBacksName.点击关闭:
+            if (CloseCallBack != null)
+                CloseCallBack.RemoveAllListeners();
+            CloseCallBack.AddListener(unityAction);
+            break;
+        case QuesCallBacksName.移入选项1:
+            if (Option0CallBack != null)
+                Option0CallBack.RemoveAllListeners();
+            Option0CallBack.AddListener(unityAction);
+            break;
+        case QuesCallBacksName.移入选项2:
+            if (Option1CallBack != null)
+                Option1CallBack.RemoveAllListeners();
+            Option1CallBack.AddListener(unityAction);
+            break;
+        case QuesCallBacksName.移入选项3:
+            if (Option2CallBack != null)
+                Option2CallBack.RemoveAllListeners();
+            Option2CallBack.AddListener(unityAction);
+            break;
+        case QuesCallBacksName.移入选项4:
+            if (Option3CallBack != null)
+                Option3CallBack.RemoveAllListeners();
+            Option3CallBack.AddListener(unityAction);
+            break;
+    }
+}
+
+/// &lt;summary&gt;
+/// 在题库中查找标签出题
+/// &lt;/summary&gt;
+/// &lt;param name=&quot;tag&quot;&gt;标签&lt;/param&gt;
+public void QuesShow(string tag)
+{
+    if (toggleGroup.transform.childCount &gt; 0)//清空之前的选项
+    {
+        for (int i = 0; i &lt; toggleGroup.transform.childCount; i++)
+        {
+            Destroy(toggleGroup.transform.GetChild(i).gameObject);
+        }
+    }
+    close.gameObject.SetActive(false);
+    foreach (QuesItem q in r.database)
+    {
+        if (q.tag == tag)//查找符合参数的题目
+        {
+            currentData = q;
+
+            if (currentData.options.Count &gt; 0)//选项不为空则实例化选项
+            {
+                for (int i = 0; i &lt; currentData.options.Count; i++)
+                {
+                    GameObject temp = GameObject.Instantiate(togglePrefab);
+                    temp.transform.SetParent(toggleGroup.transform);
+                    temp.transform.localScale = Vector3.one;
+                    Global.FindChild&lt;Text&gt;(temp.transform, &quot;Label&quot;).text = currentData.options[i];
+                    if (currentData.answer.Length == 1)//答案长度为1为单选，否则为多选
+                    {
+                        temp.GetComponent&lt;Toggle&gt;().group = toggleGroup;
+                        ok.gameObject.SetActive(false);
+                        ui_Ques.text = currentData.ques+&quot;           (单选) &quot;;
+                        temp.GetComponent&lt;Toggle&gt;().onValueChanged.AddListener(ifselect =&gt; { if (ifselect) Judge(); });
+                }
+                    else {
+                        ok.gameObject.SetActive(true);
+                        ui_Ques.text = currentData.ques + &quot;           (多选) &quot;;
+                    }
+                }
+            }
+            break;
+        }
+    }
+    Global.FindChild&lt;Transform&gt;(transform, &quot;QesPanel&quot;).DOLocalMove(new Vector3(-30, -320, 0), 1.5f).ChangeStartValue(new Vector3(-1900, -320, 0)).SetEase(Ease.InOutBack);
+}
+
+private void Judge()
+{
+    List&lt;GameObject&gt; chooses = new List&lt;GameObject&gt;();
+    string options = &quot;&quot;;
+    foreach (Transform t in toggleGroup.transform)
+    {
+        t.GetComponent&lt;Toggle&gt;().onValueChanged.RemoveAllListeners();
+        if (t.GetComponent&lt;Toggle&gt;().isOn)
+        {
+            options += t.GetComponentInChildren&lt;Text&gt;().text.Substring(0, 1);
+            chooses.Add(t.gameObject);
+        } 
+    }
+    if (options == &quot;&quot;)
+    {
+        transform.Find(&quot;QesPanel/提示&quot;).gameObject.SetActive(true);
+    }
+    else
+    {
+        transform.Find(&quot;QesPanel/提示&quot;).gameObject.SetActive(false);
+        if (options.Trim() == currentData.answer)//答案正确
+        {
+            AudioMan.Instance.PlaySound(SoundType.正确提示);
+            for (int i = 0; i &lt; chooses.Count; i++)
+            {
+                chooses[i].GetComponentInChildren&lt;Text&gt;().color = new Color(0.1f, 1f, 0.1f, 1);
+            }
+            foreach (Transform t in toggleGroup.transform)
+            {
+                t.GetComponent&lt;Toggle&gt;().interactable = false;
+            }
+        }
+        else//答案错误
+        {
+            AudioMan.Instance.PlaySound(SoundType.错误提示);
+            foreach (Transform t in toggleGroup.transform)//错误答案变红
+            {
+                t.GetComponent&lt;Toggle&gt;().interactable = false;
+                string s = t.GetComponentInChildren&lt;Text&gt;().text.Substring(0, 1);
+                if (options.Trim().Contains(s))
+                {
+                    t.GetComponentInChildren&lt;Text&gt;().color = new Color(1f, 0.1f, 0.1f, 1);
+                    t.GetComponent&lt;Toggle&gt;().group = null;
+                    t.GetComponent&lt;Toggle&gt;().isOn = true;
+                    t.Find(&quot;Checkmark&quot;).GetComponent&lt;Image&gt;().sprite = wrongImg;
+                }
+            }
+            foreach (Transform t in toggleGroup.transform)//正确答案变绿
+            {
+                string s = t.GetComponentInChildren&lt;Text&gt;().text.Substring(0, 1);
+                if (currentData.answer.Contains(s))
+                {
+                    t.GetComponentInChildren&lt;Text&gt;().color = new Color(0.1f, 1f, 0.1f, 1);
+                    t.GetComponent&lt;Toggle&gt;().group = null;
+                    t.GetComponent&lt;Toggle&gt;().isOn = true;
+                    t.Find(&quot;Checkmark&quot;).GetComponent&lt;Image&gt;().sprite = rightImg;
+                }
+            }
+        }
+        ok.gameObject.SetActive(false);
+        close.gameObject.SetActive(true);
+    }
+}
+
+public void  ClosePanel()
+{
+    Global.FindChild&lt;Transform&gt;(transform, &quot;QesPanel&quot;).DOLocalMove(new Vector3(-1900, -320, 0), 1.5f).ChangeStartValue(new Vector3(-30, -320, 0)).SetEase(Ease.InOutBack);
+    if (CloseCallBack != null)
+    {
+        CloseCallBack.Invoke();
+    }
+}
+
+/// &lt;summary&gt;
+/// 初始化
+/// &lt;/summary&gt;
+public void Init()
+{
+    Global.FindChild&lt;Transform&gt;(transform, &quot;QesPanel&quot;).transform.position=new Vector3(-1900, -320, 0);
+    CloseCallBack.RemoveAllListeners();
+}
+</code></pre><p>}</p>
+<p>//每个题最多四个选项</p>
+<p>using DG.Tweening;<br>using UnityEngine;<br>using UnityEngine.EventSystems;</p>
+<p>public class OptionEffect : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler{</p>
+<pre><code>public void OnPointerEnter(PointerEventData eventData)
+{
+    transform.Find(&quot;Background&quot;).DOLocalRotate(new Vector3(0, 0, 45), 0.1f).ChangeStartValue(Vector3.zero).SetEase(Ease.Linear);
+    switch (transform.GetSiblingIndex())
+    {
+        case 0:
+            if (QuestionsControl_json.Instance.Option0CallBack != null)
+            {
+                QuestionsControl_json.Instance.Option0CallBack.Invoke();
+                QuestionsControl_json.Instance.Option0CallBack.RemoveAllListeners();
+            }
+            break;
+        case 1:
+            if (QuestionsControl_json.Instance.Option1CallBack != null)
+            {
+                QuestionsControl_json.Instance.Option1CallBack.Invoke();
+                QuestionsControl_json.Instance.Option1CallBack.RemoveAllListeners();
+            }
+            break;
+        case 2:
+            if (QuestionsControl_json.Instance.Option2CallBack != null)
+            {
+                QuestionsControl_json.Instance.Option2CallBack.Invoke();
+                QuestionsControl_json.Instance.Option2CallBack.RemoveAllListeners();
+            }
+            break;
+        case 3:
+            if (QuestionsControl_json.Instance.Option3CallBack != null)
+            {
+                QuestionsControl_json.Instance.Option3CallBack.Invoke();
+                QuestionsControl_json.Instance.Option3CallBack.RemoveAllListeners();
+            }
+            break;
+    }
+}
+
+public void OnPointerExit(PointerEventData eventData)
+{
+    transform.Find(&quot;Background&quot;).DOLocalRotate(Vector3.zero, 0.1f).ChangeStartValue(new Vector3(0, 0, 45)).SetEase(Ease.Linear);
+}
+</code></pre><p>}</p>
+<p>//Jeson文件</p>
+<p>{<br>  “database”: [<br>    {<br>      “tag”: “1_1”,</p>
+<p>​      “ques”: “在铺开台布前，台布的状态是：<strong>____</strong>。”,</p>
+<p>​      “options”: [ “A、拿在手中”, “B、搭在椅背上”, “C、分别放在两端的椅子上”, “D、分别放在台面两侧（主人位和副主人位前）” ],<br>​      “answer”: “D”<br>​    },<br>​    {<br>​      “tag”: “1_2”,<br>​      “ques”: “关于台布的铺设，正确的是<strong>____</strong>，所以从先在副主人位操作。”,<br>​      “options”: [ “A、铺好的台布，主人位的盖住副主人位的（5cm）”, “B、铺好的台布，副主人位的盖住主人位的（5cm）”, “C、整理台布，最多5次成型，否则宣布操作失败”, “D、铺设台布，应该站在桌子较长的一边进行” ],<br>​      “answer”: “A”<br>​    },</p>
+<pre><code>{
+  &quot;tag&quot;: &quot;1_3&quot;,
+  &quot;ques&quot;: &quot;铺设台布之前，座椅摆放在副主人位，影响铺台布的操作，应该________&quot;,
+  &quot;options&quot;: [ &quot;A、靠在椅子边铺台布&quot;, &quot;B、将椅子先移到一边&quot;, &quot;C、站到椅子上铺台布&quot; ],
+  &quot;answer&quot;: &quot;B&quot;
+},
+{
+  &quot;tag&quot;: &quot;1_4&quot;,
+  &quot;ques&quot;: &quot;铺设操作最多________次整理成形。&quot;,
+  &quot;options&quot;: [ &quot;A、3&quot;, &quot;B、4&quot;, &quot;C、5&quot;, &quot;D、6&quot; ],
+  &quot;answer&quot;: &quot;B&quot;
+},
+{
+  &quot;tag&quot;: &quot;2_1&quot;,
+  &quot;ques&quot;: &quot;摆设操作从席椅 ________ 进行。&quot;,
+  &quot;options&quot;: [ &quot;A、正后方&quot;, &quot;B、正前方&quot;, &quot;C、右侧&quot;, &quot;D、左侧&quot; ],
+  &quot;answer&quot;: &quot;A&quot;
+},
+{
+  &quot;tag&quot;: &quot;2_2&quot;,
+  &quot;ques&quot;: &quot;从 ________ 位开始按顺时针方向摆设。&quot;,
+  &quot;options&quot;: [ &quot;A、副主人&quot;, &quot;B、主人&quot;, &quot;C、男客人&quot;, &quot;D、女客人&quot; ],
+  &quot;answer&quot;: &quot;B&quot;
+},
+{
+  &quot;tag&quot;: &quot;2_3&quot;,
+  &quot;ques&quot;: &quot;将餐椅成 ________ 均匀整齐摆放(两个长边各摆放 ________ 坐椅)，餐椅之间距离 ________ 。&quot;,
+  &quot;options&quot;: [ &quot;A、2+1+2+1，两把，不等&quot;, &quot;B、2+1+1+2，三把，基本相等&quot;, &quot;C、1+2+1+2，一把，基本相等&quot;, &quot;D、2+1+2+1，两把，基本相等&quot; ],
+  &quot;answer&quot;: &quot;D&quot;
+},
+{
+  &quot;tag&quot;: &quot;2_4&quot;,
+  &quot;ques&quot;: &quot;相对应的席位的椅背中心 ________ 。&quot;,
+  &quot;options&quot;: [ &quot;A、右对准&quot;, &quot;B、对齐&quot;, &quot;C、对准&quot;, &quot;D、左对准&quot; ],
+  &quot;answer&quot;: &quot;C&quot;
+},
+{
+  &quot;tag&quot;: &quot;2_5&quot;,
+  &quot;ques&quot;: &quot;餐椅离开桌边 ________ （即边沿与下垂台布相距 ________ ）。&quot;,
+  &quot;options&quot;: [ &quot;A、1.5cm&quot;, &quot;B、1cm&quot;, &quot;C、0.5cm&quot;, &quot;D、2cm  &quot; ],
+  &quot;answer&quot;: &quot;B&quot;
+},
+{
+  &quot;tag&quot;: &quot;5_1&quot;,
+  &quot;ques&quot;: &quot;黄油刀搁于面包盘中心线 ________ 处。&quot;,
+  &quot;options&quot;: [ &quot;A、右四分之一&quot;, &quot;B、右四分之二&quot;, &quot;C、左四分之一&quot;, &quot;D、左三分之一  &quot; ],
+  &quot;answer&quot;: &quot;A&quot;
+},
+{
+  &quot;tag&quot;: &quot;6_1&quot;,
+  &quot;ques&quot;: &quot;首先应该摆放 ________ 。&quot;,
+  &quot;options&quot;: [ &quot;A、水杯&quot;, &quot;B、红葡萄酒杯&quot;, &quot;C、白葡萄酒杯&quot;, &quot;D、随意  &quot; ],
+  &quot;answer&quot;: &quot;C&quot;
+},
+{
+  &quot;tag&quot;: &quot;6_2&quot;,
+  &quot;ques&quot;: &quot;三杯杯肚间隔 ________cm 。&quot;,
+  &quot;options&quot;: [ &quot;A、1.5cm&quot;, &quot;B、1cm&quot;, &quot;C、0.5cm&quot;, &quot;D、2cm  &quot; ],
+  &quot;answer&quot;: &quot;B&quot;
+},
+{
+  &quot;tag&quot;: &quot;6_3&quot;,
+  &quot;ques&quot;: &quot;三杯中心点连成一直线并成 ________ 度 。&quot;,
+  &quot;options&quot;: [ &quot;A、30&quot;, &quot;B、45&quot;, &quot;C、60&quot;, &quot;D、90  &quot; ],
+  &quot;answer&quot;: &quot;B&quot;
+},
+{
+  &quot;tag&quot;: &quot;6_4&quot;,
+  &quot;ques&quot;: &quot;操作时，手持杯中 ________。&quot;,
+  &quot;options&quot;: [ &quot;A、上部&quot;, &quot;B、颈部&quot;, &quot;C、中部&quot;, &quot;D、下部  &quot; ],
+  &quot;answer&quot;: &quot;BD&quot;
+},
+{
+  &quot;tag&quot;: &quot;9_1&quot;,
+  &quot;ques&quot;: &quot;折花摆放于每个装饰碟的 ________ 处。&quot;,
+  &quot;options&quot;: [ &quot;A、左边&quot;, &quot;B、正中&quot;, &quot;C、右边&quot; ],
+  &quot;answer&quot;: &quot;B&quot;
+}
+</code></pre><p>  ]<br>}</p>
+<p># </p>
+
+    </div>
+</article>
+
+
+                </div>
+                <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get" action="../../../../search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~" autocomplete="off">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            蛋蛋
+            <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="../../../../imgs/dandan.jpg" width="140" height="140" alt="个人头像" class="author-image">
+            <p class="author-description"></p>
+        </div>
+    </div>
+</aside>
+    
+    <aside id="sidebar-recent_comments">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-comments"></i>
+            最新评论
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush"></ul>
+    </div>
+</aside>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="../XML存-读实现/">XML存-读实现</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href>Jeson存-读实现</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="../../05/端午的祝福/">端午的祝福</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="../../05/DoTween使用/">DoTween使用</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="../../../05/30/游戏人生/">游戏人生</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="../../../05/28/致青春———荒唐过的游戏人生/">致青春———荒唐过的游戏人生</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="../../../05/28/随心记录/">随心记录</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="../../../05/25/谈谈对高考的认识/">谈谈对高考的认识</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="../../../05/24/愿望墙/">愿望墙</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="../../../05/23/突然间想浪一下/">突然间想浪一下</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="../../05/DoTween使用/">DoTween使用</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="../XML存-读实现/">XML存-读实现</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="../../../05/24/愿望墙/">愿望墙</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="../../../05/30/游戏人生/">游戏人生</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="../../../05/20/FirstBlog/">FirstBlog</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="../../../05/23/突然间想浪一下/">突然间想浪一下</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="../../../05/21/记录一下自己写博客踩过的雷/">记录一下自己写博客踩过的雷</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href>Jeson存-读实现</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="../../05/端午的祝福/">端午的祝福</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="../../../05/28/致青春———荒唐过的游戏人生/">致青春———荒唐过的游戏人生</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+
+                
+                <li>
+                    <a href="#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                
+                
+                <li>
+                    <a href="#sidebar-friend-links" data-toggle="tab" id="friend-links-tab">友情链接</a>
+                </li>
+                
+                
+                <li>
+                    <a href="#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+                
+            </ul>
+            <div class="tab-content">
+                
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="../../../../tags/技术/" style="font-size: 12.253619896077096px;" class="tag-cloud-link">技术</a>
+    
+    <a href="../../../../tags/情感日记/" style="font-size: 11.03409371680083px;" class="tag-cloud-link">情感日记</a>
+    
+    <a href="../../../../tags/自己也曾是个网瘾少年/" style="font-size: 19.844260790627537px;" class="tag-cloud-link">自己也曾是个网瘾少年</a>
+    
+    <a href="../../../../tags/旅游/" style="font-size: 14.967409353074524px;" class="tag-cloud-link">旅游</a>
+    
+    <a href="../../../../tags/Blog踩坑/" style="font-size: 17.353037442591685px;" class="tag-cloud-link">Blog踩坑</a>
+    
+    <a href="../../../../tags/高考/" style="font-size: 13.916707816161622px;" class="tag-cloud-link">高考</a>
+    
+    <a href="../../../../tags/收集、摘录、随感/" style="font-size: 18.079878591601567px;" class="tag-cloud-link">收集、摘录、随感</a>
+    
+    <a href="../../../../tags/科普/" style="font-size: 16.47343992447201px;" class="tag-cloud-link">科普</a>
+    
+</div>
+                
+                
+                <div class="friend-links tab-pane nav bs-sidenav fade" id="sidebar-friend-links">
+    
+    <li>
+        <a href target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href target="_blank"></a>
+    </li>
+    
+</div>
+                
+                
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="https://github.com/XiaoChouHuang1" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="mailto:18530925361@126.com" target="_blank">E-Mail</a>
+    </li>
+    
+    <li>
+        <a href="https://www.zhihu.com/people/aixiaodan.com/following/topics" target="_blank">知乎</a>
+    </li>
+    
+    <li>
+        <a href="https://www.facebook.com/profile.php?id=100030883534864" target="_blank">FaceBook</a>
+    </li>
+    
+</div>
+                
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+            </div>
+        </div>
+    </div>
+    <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2018 蛋蛋 Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+    </div>
+</footer>
+
+<!-- 回到顶端 -->
+<div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div>
+</body>
+<script src="../../../../js/activate-power-mode.js"></script>
+<script>
+
+    // 配置highslide
+	hs.graphicsDir = '/js/highslide/graphics/'
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.lang.number = '共%2张图, 当前是第%1张';
+    hs.addSlideshow({
+      interval: 5000,
+      repeat: true,
+      useControls: true,
+      fixedControls: "fit",
+      overlayOptions: {
+        opacity: 0.75,
+        position: "bottom center",
+        hideOnMouseOut: true
+      }
+    })
+
+    // 初始化aos
+    AOS.init({
+      duration: 1000,
+      delay: 0,
+      easing: 'ease-out-back'
+    });
+
+</script>
+<script>
+	POWERMODE.colorful = 'true';    // make power mode colorful
+	POWERMODE.shake = 'true';       // turn off shake
+	// TODO 这里根据具体情况修改
+	document.body.addEventListener('input', POWERMODE);
+</script>
+<script>
+    window.slideConfig = {
+      prefix: '../../../../imgs/slide/background',
+      ext: 'jpg',
+      maxCount: '6'
+    }
+</script>
+<script src="../../../../js/hs.js"></script>
+<script src="../../../../js/blog.js"></script>
+
+
+
+</html>
